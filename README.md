@@ -1,5 +1,5 @@
-helios-merge — bundles Helios modules
-============================================
+helios-merge — merges Helios modules
+=====================================
 
 `helios-merge` is a command-line tool which bundles JavaScript modules
 based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
