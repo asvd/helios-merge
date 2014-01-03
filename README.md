@@ -71,8 +71,7 @@ relying on each other, and we need to merge it into a single module.
 The source of the artificial example library could be like this:
 
 
-##### `./myLibrary.js` - main library module, provides a method to say 'Hello
-World!':
+##### `./myLibrary.js` - main library module, provides a method to say 'Hello World!':
 
 ```js
 include('./base.js');
