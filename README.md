@@ -116,7 +116,7 @@ $ helios-merge --input=./myLibrary.js --output=./myLibraryBundled.js
 ```
 
 The generated `myLibraryBundled.js` will contain the code of all
-modules in order of dependence and will behave like this:
+modules sorted in order of dependence and will behave like this:
 
 ```js
 init = function() {
