@@ -40,7 +40,7 @@ $ helios-merge --input=path --output=path [additional options]
 `--input` path of the main module to start bundle from (defaults to
 `./main.js`)
 
-`--output` path to write the bundled resulting script into. After the
+`--output` path to write the bundled script into. After the
 bundle is prepared, this script could be reused instead of the
 original file (provided to the `--input` option).
 
