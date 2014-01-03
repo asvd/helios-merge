@@ -51,7 +51,7 @@ Kernel (implies `--scope=global`)
 `--scope=subdir` (default) - bundle only the scripts in the directory
 and subdirectories. All modules outside of the bundling scope will be
 treated as external dependencies and will be included into the bundled
-module head using `include()` function of Helios Kernel
+module head using the `include()` function of Helios Kernel
 
 `--scope=local` bundle all sources available by a local path, but
 treat remote dependencies as external
@@ -66,12 +66,12 @@ form `http://...`)
 
 ### Example
 
-In this example we have a library splitted between the several modules
+In this example we have a library splitted between several modules
 relying on each other, and we need to merge it into a single module.
 The source of the artificial example library could be like this:
 
 
-`./myLibrary.js` - main library module, provides a method to say 'Hello
+#### `./myLibrary.js` - main library module, provides a method to say 'Hello
 World!':
 
 ```js
