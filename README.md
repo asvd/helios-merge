@@ -47,9 +47,9 @@ prepared, this script could be reused instead of the original file
 `--quiet` suppress informational messages display
 
 `--plain` create a plain .js file suitable to be used without Helios
-Kernel, implies `--scope=global`
+Kernel (implies `--scope=global`)
 
-`--scope=subdir` (default) bundle only the scripts in the directory
+`--scope=subdir` (default) - bundle only the scripts in the directory
 and subdirectories. All modules outside of the bundling scope will be
 treated as external dependencies and will be included into the bundled
 module head using `include()` function of Helios Kernel.
