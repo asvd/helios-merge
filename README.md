@@ -4,9 +4,9 @@ helios-merge — merges Helios modules
 `helios-merge` is a command-line tool which bundles JavaScript modules
 based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
 module format. This tool can be used to prepare a library internally
-managed as several Helios Kernel modules to the release as a plain
-JavaScript file suitable for using without Helios Kernel, or to simply
-prepare a bundled module for further minimizaiton before the
+managed as several Helios Kernel modules to release as a plain
+JavaScript file (suitable for using without Helios Kernel), or to
+simply prepare a bundled module for further minimizaiton before the
 release. `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
 [Escodegen](https://github.com/Constellation/escodegen) projects.
