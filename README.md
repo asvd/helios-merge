@@ -37,30 +37,30 @@ $ helios-merge --input=path --output=path [additional options]
 
 #### Options:
 
-`--input` : path of the main module to start bundle from (defaults to `./main.js`)
+`--input` path of the main module to start bundle from (defaults to `./main.js`)
 
-`--output` : path to write the bundled result into. Using the resulted
+`--output` path to write the bundled result into. Using the resulted
 bundled module will equal to using the original library main script
 provided to the `--input` option)
 
-`--quiet` : suppress informational messages display
+`--quiet` suppress informational messages display
 
-`--plain` : create a plain js script suitable to be used without
+`--plain` create a plain js script suitable to be used without
 Helios Kernel, implies `--scope=global`
 
-`--scope=subdir` (default): bundle only the scripts in the directory
+`--scope=subdir` (default) bundle only the scripts in the directory
 and subdirectories. All modules outside of the bundling scope will be
 treated as external dependencies and will be included into the bundled
 module head using `include()` function of Helios Kernel.
 
-`--scope=local` : bundle all sources available by a local path, but
+`--scope=local` bundle all sources available by a local path, but
 treat remote dependencies as external
 
-`--scope=global` : bundle all local and remote files (paths starting
+`--scope=global` bundle all local and remote files (paths starting
 form `http://...`)
 
 
-`--help` or whatever unrecognized : shows help message
+`--help` or whatever unrecognized - shows help message
 
 
 
