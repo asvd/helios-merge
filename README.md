@@ -1,4 +1,4 @@
-helios-merge — bundles Helios Kernel modules
+helios-merge — bundles Helios modules
 ============================================
 
 `helios-merge` is a command-line tool which bundles JavaScript modules
@@ -32,8 +32,6 @@ instead of simply `helios-merge` in the examples above.
 
 ### Brief
 
-#### Usage:
-
 ```sh
 $ helios-merge --input=path --output=path [additional options]
 ```
@@ -49,13 +47,11 @@ $ helios-merge --input=path --output=path [additional options]
 
 `--plain` : Create a plain js script suitable to be used without Helios Kernel, implies `--scope=global`
 
-`--scope` : Defines a scope of scripts to bundle:
+`--scope=subdir` : Bundle only the scripts in the directory and subdirectories
 
-`--scope=subdir` : only in the given directory and its subdirectories
+`--scope=local` : Bundle all sources available by a local path
 
-`--scope=local` : all sources available by a local path
-
-`--scope=global` : all local and remote files
+`--scope=global` : Bundle all local and remote files
 
 `--help` or whatever unrecognized : Will show help message
 
@@ -96,7 +92,7 @@ The following additional options are available:
 directories
 
 `--scope=global` - will also download and bundle the remote modules
-  (included by paths starting from 'http://')
+  (included by paths starting from `http://`)
 
 `--plain` will create a plain JavaScript code instead of a Helios
   Module. Such script could be used as an ordinary JavaScript file
