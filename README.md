@@ -108,8 +108,7 @@ init = function() {
 ```
 
 
-To merge this library in a bundle, we will use `helios-merge` tool like
-this:
+Bundling the library using `helios-merge` like this:
 
 
 ```sh
