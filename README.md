@@ -137,4 +137,4 @@ fact the code of each original module will additionally be wrapped
 into an anonymous function to make use of local variables declared in
 each original module's initializer.
 
-
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asvd/helios-merge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
