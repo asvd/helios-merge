@@ -85,7 +85,7 @@ init = function() {
 ```
 
 
-`./print.js` - prints a given message
+##### `./print.js` - prints a given message
 
 ```js
 include('./base.js');
@@ -98,7 +98,7 @@ init = function() {
 ```
 
 
-`./base.js` - declares library object
+##### `./base.js` - declares library object
 
 ```js
 init = function() {
