@@ -48,7 +48,7 @@ the `--input` option) with the same effect
 `--plain` create a plain .js file suitable to be used without Helios
 Kernel (implies `--scope=global`)
 
-`--scope=subdir` (default) - bundle only the scripts in the directory
+`--scope=subdir` (default) — bundle only the scripts in the directory
 and subdirectories. All modules outside of the bundling scope will be
 treated as external dependencies and will be included into the bundled
 module head using the `include()` function of Helios Kernel
@@ -60,18 +60,19 @@ treat remote dependencies as external
 form `http://...`)
 
 
-`--help` or whatever unrecognized - show help message
+`--help` or whatever unrecognized — show help message
 
 
 
 ### Example
 
 In this example we have a library splitted between several modules
-relying on each other, and we need to merge it into a single module.
-The source of the artificial example library could be like this:
+relying on each other, and we are going to merge it into a single
+module.  The source of the artificial example library could be like
+this:
 
 
-##### `./myLibrary.js` - main library module, provides a method to say 'Hello World!':
+##### `./myLibrary.js` — main library module, provides a method to say 'Hello World!':
 
 ```js
 include('./base.js');
@@ -85,7 +86,7 @@ init = function() {
 ```
 
 
-##### `./print.js` - prints a given message
+##### `./print.js` — prints a given message:
 
 ```js
 include('./base.js');
@@ -98,7 +99,7 @@ init = function() {
 ```
 
 
-##### `./base.js` - declares library object
+##### `./base.js` — declares library object:
 
 ```js
 init = function() {
