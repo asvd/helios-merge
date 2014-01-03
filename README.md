@@ -6,9 +6,7 @@ based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
 module format. This tool can be used to prepare a library internally
 managed as several Helios Kernel modules to the release as a plain
 JavaScript file suitable for using without Helios Kernel, or to simply
-prepare a bundled module to be further minimized before the
-release. You can even bundle the whole application into a single-file
-JavaScript file.
+prepare a bundled module to be further minimized before the release.
 
 `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
@@ -30,7 +28,7 @@ instead of simply `helios-merge` in the examples above.
 
 
 
-### Brief
+### Usage
 
 ```sh
 $ helios-merge --input=path --output=path [additional options]
@@ -39,68 +37,30 @@ $ helios-merge --input=path --output=path [additional options]
 
 #### Options:
 
-`--input` : Path of the main module to start bundle from (defaults to `./main.js`)
+`--input` : path of the main module to start bundle from (defaults to `./main.js`)
 
-`--output` : Path to write the bundled result into
+`--output` : path to write the bundled result into. Using the resulted
+bundled module will equal to using the original library main script
+provided to the `--input` option)
 
-`--quiet` : Do not display informational messages
+`--quiet` : suppress informational messages display
 
-`--plain` : Create a plain js script suitable to be used without Helios Kernel, implies `--scope=global`
+`--plain` : create a plain js script suitable to be used without
+Helios Kernel, implies `--scope=global`
 
-`--scope=subdir` : Bundle only the scripts in the directory and subdirectories
+`--scope=subdir` (default): bundle only the scripts in the directory
+and subdirectories. All modules outside of the bundling scope will be
+treated as external dependencies and will be included into the bundled
+module head using `include()` function of Helios Kernel.
 
-`--scope=local` : Bundle all sources available by a local path
+`--scope=local` : bundle all sources available by a local path, but
+treat remote dependencies as external
 
-`--scope=global` : Bundle all local and remote files
-
-`--help` or whatever unrecognized : Will show help message
-
+`--scope=global` : bundle all local and remote files (paths starting
+form `http://...`)
 
 
-### Usage
-
-To bundle a set of modules, the following command could be used:
-
-```sh
-$ helios-merge --input=path/to/someLibrary/main_module.js --output=./bundled_library.js
-```
-
-This command will read all modules included by the `main_module.js` of
-some library, and merge the code of the modules tree into a single
-`bundled_library.js` module regarding the dependency order. As result,
-loading the bundled library module will equal to using the original
-`main_module.js`.
-
-By default `helios-merge` will only merge the modules located in the
-sub-directories relatively to the main module provided to the
-`--input` option. All modules in the higher-level directories will be
-treated as external dependencies to the library, and will be included
-at the bundled module head using the `include()` function of the
-Helios Kernel. This behaviour could be modified using the `--scope`
-option.
-
-The following additional options are available:
-
-`--scope` defines the area of modules to bundle. The modules located
-  outside the area will be included as external
-  dependencies. `--scope` option may have the following values:
-
-`--scope=subdir` (default) - will only bundle the modules located in
-  the subdirectory
-
-`--scope=local` - will additionally bundle all modules in external
-directories
-
-`--scope=global` - will also download and bundle the remote modules
-  (included by paths starting from `http://`)
-
-`--plain` will create a plain JavaScript code instead of a Helios
-  Module. Such script could be used as an ordinary JavaScript file
-  without Helios Kernel. This option implies `--scope=global`, since
-  all the needed code should be bundled in this case
-
-`--quiet` will suppress information messages output
-
+`--help` or whatever unrecognized : shows help message
 
 
 
@@ -174,8 +134,8 @@ init = function() {
 ```
 
 This code demonstrates the behaviour of the generated bundle, but in
-fact the code of each original module will additionally be wrapped in
-an anynamous function to make use of local variables declared in each
-original module's initializer.
+fact the code of each original module will additionally be wrapped
+into an anonymous function to make use of local variables declared in
+each original module's initializer.
 
 
