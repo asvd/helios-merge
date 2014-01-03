@@ -35,7 +35,7 @@ instead of simply `helios-merge` in the examples above.
 #### Usage:
 
 ```sh
-$ helios-merge --input=[path] --output=[path] [additional options]
+$ helios-merge --input=path --output=path [additional options]
 ```
 
 
