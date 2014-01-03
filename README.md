@@ -51,11 +51,11 @@ $ helios-merge --input=[path] --output=[path] [additional options]
 
 `--scope` : Defines a scope of scripts to bundle:
 
-     `subdir` : only in the given directory and its subdirectories
+`--scope=subdir` : only in the given directory and its subdirectories
 
-     `local` : all sources available by a local path
+`--scope=local` : all sources available by a local path
 
-     `global` : all local and remote files
+`--scope=global` : all local and remote files
 
 `--help` or whatever unrecognized : Will show help message
 
