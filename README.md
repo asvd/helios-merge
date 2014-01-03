@@ -24,7 +24,7 @@ $ npm install helios-merge
 Optionally you may download the distribution using [this
 link](https://github.com/asvd/helios-merge/releases/download/v0.1/helios-merge-0.1.tar.gz).
 In latter case you will have to launch it as `nodejs helios-merge.js`
-instead of simply `helios-merge` in the examples above.
+instead of simply `helios-merge` in the examples below.
 
 
 
