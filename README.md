@@ -6,9 +6,8 @@ based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
 module format. This tool can be used to prepare a library internally
 managed as several Helios Kernel modules to the release as a plain
 JavaScript file suitable for using without Helios Kernel, or to simply
-prepare a bundled module for further minimizaiton before the release.
-
-`helios-merge` is based upon the
+prepare a bundled module for further minimizaiton before the
+release. `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
 [Escodegen](https://github.com/Constellation/escodegen) projects.
 
@@ -23,7 +22,7 @@ $ npm install helios-merge
 
 Optionally you may download the distribution using [this
 link](https://github.com/asvd/helios-merge/releases/download/v0.1/helios-merge-0.1.tar.gz).
-In latter case you will have to launch it as `nodejs helios-merge.js`
+In latter case you will have to launch it as `nodejs path/to/helios-merge.js`
 instead of simply `helios-merge` in the examples below.
 
 
