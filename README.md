@@ -1,13 +1,14 @@
-helios-merge - bundles Helios modules
-=====================================
+helios-merge — bundles Helios Kernel modules
+============================================
 
-`helios-merge` is a command-line tool which bundles the modules based
-upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
-format. It can be used to prepare a library internally managed as
-several Helios Kernel modules to the release as a plain JavaScript
-file suitable for using without Helios Kernel, or to simply prepare a
-bundled module to be further minimized before the release. You can
-even bundle the whole application into a single-file JavaScript file.
+`helios-merge` is a command-line tool which bundles JavaScript modules
+based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
+module format. This tool can be used to prepare a library internally
+managed as several Helios Kernel modules to the release as a plain
+JavaScript file suitable for using without Helios Kernel, or to simply
+prepare a bundled module to be further minimized before the
+release. You can even bundle the whole application into a single-file
+JavaScript file.
 
 `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
@@ -19,7 +20,7 @@ even bundle the whole application into a single-file JavaScript file.
 Install `helios-merge` using [npm](https://npmjs.org/):
 
 ```sh
-$ npm install helios-kernel
+$ npm install helios-merge
 ```
 
 Optionally you may download the distribution using [this
@@ -40,7 +41,8 @@ $ helios-merge --input=[path] --output=[path] [additional options]
 
 #### Options:
 
---input : Path of the main module to start bundle from (defaults to ./main.js)
+`--input` : Path of the main module to start bundle from (defaults to `./main.js`)
+
 --output : Path to write the bundled result into
 --quiet : Do not display informational messages
 --plain : Create a plain js script suitable to be used without Helios-Kernel, implies --scope=global
