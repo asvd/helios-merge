@@ -10,7 +10,7 @@ prepare a bundled module to be further minimized before the release.
 
 `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
-[Escodegen](https://github.com/Constellation/escodegen) projects
+[Escodegen](https://github.com/Constellation/escodegen) projects.
 
 
 ### Installation
