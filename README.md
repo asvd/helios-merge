@@ -36,12 +36,12 @@ $ helios-merge --input=path --output=path [additional options]
 
 #### Options:
 
-`--input` path of the main module to start bundle from (defaults to
+`--input` path of the main module to start merging from (defaults to
 `./main.js`)
 
 `--output` path to write the bundled script into. After the bundle is
-prepared, this script could be reused instead of the original file
-(provided to the `--input` option).
+prepared, it could be reused instead of the original file (provided to
+the `--input` option) with the same effect
 
 `--quiet` suppress informational messages display
 
@@ -51,7 +51,7 @@ Kernel (implies `--scope=global`)
 `--scope=subdir` (default) - bundle only the scripts in the directory
 and subdirectories. All modules outside of the bundling scope will be
 treated as external dependencies and will be included into the bundled
-module head using `include()` function of Helios Kernel.
+module head using `include()` function of Helios Kernel
 
 `--scope=local` bundle all sources available by a local path, but
 treat remote dependencies as external
