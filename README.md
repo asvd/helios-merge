@@ -21,7 +21,7 @@ $ sudo npm install helios-merge -g
 ```
 
 Optionally you may download the distribution using [this
-link](https://github.com/asvd/helios-merge/releases/download/v0.1/helios-merge-0.1.tar.gz).
+link](https://github.com/asvd/helios-merge/releases/download/v0.1.0/helios-merge-0.1.0.tar.gz).
 In latter case you will have to launch it as `node path/to/helios-merge.js`
 instead of simply `helios-merge` in the examples below.
 
