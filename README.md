@@ -17,12 +17,12 @@ minimizaiton. `helios-merge` is based upon the
 Install `helios-merge` using [npm](https://npmjs.org/):
 
 ```sh
-$ npm install helios-merge
+$ sudo npm install helios-merge -g
 ```
 
 Optionally you may download the distribution using [this
 link](https://github.com/asvd/helios-merge/releases/download/v0.1/helios-merge-0.1.tar.gz).
-In latter case you will have to launch it as `nodejs path/to/helios-merge.js`
+In latter case you will have to launch it as `node path/to/helios-merge.js`
 instead of simply `helios-merge` in the examples below.
 
 
