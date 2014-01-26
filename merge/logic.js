@@ -289,7 +289,7 @@ init = function() {
 
         var result = [
         '/**',
-        ' * This is a set of Helios Kernel modules merged by helios-merge tool',
+        ' * This is a set of Helios Kernel modules merged with helios-merge',
         ' *',
         ' * http://asvd.github.io/helios-kernel',
         ' * http://github.com/asvd/helios-merge',

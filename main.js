@@ -1,3 +1,13 @@
+/**
+ * @fileoverview helios-merge merges Helios Kernel modules
+ * 
+ * @version 0.1.1
+ * 
+ * Copyright (c) 2014 asvd <heliosframework@gmail.com> 
+ * 
+ * helios-merge tool library is licensed under the MIT license,
+ * see http://github.com/asvd/helios-merge
+ */
 
 include('merge/util.js');
 include('merge/logic.js');
