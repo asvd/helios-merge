@@ -497,7 +497,7 @@ init = function() {
         }
     };
 
-    lighttest.run( tests, cleanup );
+    lighttest.start( tests, cleanup );
 
 }
 
