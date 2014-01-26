@@ -15,15 +15,59 @@ init = function() {
     helios.tools.merge.ns('helios.tools.merge.util');
 
     /**
+     * Relates the given absolute path to the given location
+     * 
+     * @param {String} location to relate the path ('/home/abc/project/code')
+     * @param {String} absolute path ('/home/abc/project/lib.js')
+     * 
+     * @returns {String} related path ('../lib.js');
+     */
+    helios.tools.merge.util.relatePath = function( location, absolute ) {
+        location += '/';
+        var matching = true, locWord, absWord, locSize, absSize;
+        while(matching){
+            absSize = absolute.indexOf('/');
+            locSize = location.indexOf('/');
+            absWord = absolute.substr( 0, absSize );
+            locWord = location.substr( 0, locSize );
+
+            if ( absWord == locWord ) {
+                absolute = absolute.substr( absSize+1 );
+                location = location.substr( locSize+1 );
+
+                if ( location.length == 0 ) {
+                    matching = false;
+                }
+            } else {
+                matching = false;
+            }
+        }
+
+        var result = '';
+
+        for ( var i = 0; i < location.length; i++ ) {
+            if ( location.charAt(i) == '/' ) {
+                result += '../';
+            }
+        }
+
+        result += absolute;
+
+        return result;
+    }
+
+
+
+    /**
      * Converts the given relative path + absolute directory location
      * to the absolute location
      * 
-     * @param {String} relative path (like '../lib.js')
-     * @param {String} location to relate the path ('/home/abc/project/code')
+     * @param {String} location to which the path is related ('/home/abc/project/code')
+     * @param {String} relative path ('../lib.js')
      * 
      * @returns {String} absolute path ('/home/abc/project/lib.js')
      */
-    helios.tools.merge.util.relatePath = function( relative, location ) {
+    helios.tools.merge.util.unrelatePath = function( location, relative ) {
         if ( relative[0] == '/' ) {
             // already absolute
             return relative;
@@ -127,7 +171,7 @@ init = function() {
         if ( path.substr(0,7).toLowerCase() != 'http://' &&
              path.substr(0,8).toLowerCase() != 'https://'&&
              path.substr(0,1) != '/' ) {
-            path = this.getLocation(childPath) + path;
+            path = this.getLocation(childPath) + '/' + path;
         }
 
         // resolving (clearing) up-dir sequences such as 'foo/../'
@@ -150,7 +194,7 @@ init = function() {
      * @returns {String} location (i.e. '/path/to')
      */
     helios.tools.merge.util.getLocation = function( path ) {
-        return path.substr( 0, path.lastIndexOf('/')+1 );
+        return path.substr( 0, path.lastIndexOf('/') );
     }
     
     
@@ -170,15 +214,23 @@ init = function() {
     
     /**
      * Checks if the given path is in subdirectory related to the
-     * given loceation
+     * given location
      * 
-     * @param {String} path to check
-     * @param {String} location to check
+     * @param {String} path     ('/abc/def/ghi')
+     * @param {String} location ('/abc/def')
      * 
      * @returns {Boolean} true if path is in subdirectory
      */
     helios.tools.merge.util.isSubdir = function( path, location ) {
-        return path.indexOf(location) == 0;
+        var result = (
+            path.indexOf(location) == 0 &&
+            (
+                path.length == location.length ||
+                path.charAt(location.length) == '/'
+            )
+        );
+
+        return result;
     }
 
 
@@ -220,24 +272,27 @@ init = function() {
         var http = require('http');
 
         var sCb = function(res) {
-            var content = '';
+            if ( res.statusCode != 200 ) {
+                fCb('HTTP responce status code: ' + res.statusCode);
+            } else {
+                var content = '';
 
-            res.on( 'end', function() { cb(content); } );
-            res.on(
-                'readable',
-                function() {
-                    var chunk=res.read();
-                    content += chunk.toString();
-                }
-            );
-
+                res.on( 'end', function(){ cb(content); } );
+                res.on(
+                    'readable',
+                    function() {
+                        var chunk=res.read();
+                        content += chunk.toString();
+                    }
+                );
+            }
         }
 
         var fCb = function(e) {
             throw new Error(e.message);
         }
 
-        http.get( path, sCb ).on('error', fCb );
+        http.get( path, sCb ).on( 'error', fCb );
     }
 
     
@@ -249,7 +304,7 @@ init = function() {
      * @param {String} content to put into the file
      */
     helios.tools.merge.util.writeFile = function( path, code ) {
-        var fs = require( "fs" );
+        var fs = require('fs');
         
         var cb = function(err) {
             if (err) {
@@ -257,7 +312,7 @@ init = function() {
             }
         }
         
-        fs.writeFile( path, code, cb );
+        fs.writeFile(path,code,cb);
     }
 
     
@@ -272,13 +327,16 @@ init = function() {
      */
     helios.tools.merge.util._parse = function( code ) {
         var result = {
-            dependencies : [],  // list of included modules
-            init : '',     // initializer code
-            uninit : ''    // uninitializer code
+            dependencies : [], // list of included modules
+            init : '',         // initializer code
+            uninit : '',       // uninitializer code
+            comment : ''       // module leading comment
         };
 
         var ast = esprima.parse( code, this._esprimaCfg );
         ast = escodegen.attachComments( ast, ast.comments, ast.tokens );
+
+        result.comment = this._genLeadingComment( ast.leadingComments || [] );
 
         // running through top-level entries
         var expr, reason, node;
@@ -294,30 +352,67 @@ init = function() {
                         if ( typeof expr.arguments != 'undefined' &&
                              typeof expr.arguments[0] != 'undefined' &&
                              typeof expr.arguments[0].value != 'undefined') {
-                            result.dependencies.push(expr.arguments[0].value);
+                            result.dependencies.push(
+                                expr.arguments[0].value
+                            );
                         } else {
-                            this._complain( 'argument', expr.loc.start.line );
+                            this._complain(
+                                'argument', expr.loc.start.line
+                            );
                         }
                         continue;
                     } else {
-                        this._complain( expr.callee.name, expr.loc.start.line );
+                        this._complain(
+                            expr.callee.name, expr.loc.start.line
+                        );
                     }
 
                 } else if ( expr.type == 'AssignmentExpression' ) {
                     if ( expr.left.name == 'init' ) {
                         // module initializer, compiling the source
-                        result.init = escodegen.generate( expr.right.body, this._escodegenCfg );
+                        result.init = escodegen.generate(
+                            expr.right.body, this._escodegenCfg
+                        );
                         continue;
                     } else if ( expr.left.name == 'uninit' ) {
                         // module uninitializer, compiling the source
-                        result.uninit = escodegen.generate( expr.right.body, this._escodegenCfg );
+                        result.uninit = escodegen.generate(
+                            expr.right.body, this._escodegenCfg
+                        );
                         continue;
                     } else {
-                        this._complain( expr.left.name, expr.loc.start.line );
+                        this._complain(
+                            expr.left.name, expr.loc.start.line
+                        );
                     }
                 } else {
-                    this._complain( expr.type, expr.loc.start.line );
+                    this._complain(
+                        expr.type, expr.loc.start.line
+                    );
                 }
+            }
+        }
+
+        return result;
+    }
+    
+    
+
+    /**
+     * Generates a set of head comments for a module
+     * 
+     * @param {Array} leadingComments as parsed by esprima
+     * 
+     * @returns {String} generated comment to append
+     */
+    helios.tools.merge.util._genLeadingComment = function( leadingComments ){
+        var result = '', com;
+        for ( var i = 0; i < leadingComments.length; i++ ) {
+            com = leadingComments[i];
+            if ( com.type == 'Block' ) {
+                result += '/*' + com.value + '*/\n';
+            } else if ( com.type == 'Line' ) {
+                result += '//' + com.value + '\n';
             }
         }
 
@@ -334,10 +429,11 @@ init = function() {
      * @param {Number} line
      */
     helios.tools.merge.util._complain = function( problem, line ) {
-        var text = "Line " + line + ": \n";
-        text += "Unexpected " + problem + "\n";
-        text += "Helios Module should only contain "+
-            "init(), uninit() declarations, and a set of include() calls at the head\n";
+        var text = 'Line ' + line + ': \n';
+        text += 'Unexpected ' + problem + '\n';
+        text += 'Helios Module should only contain '+
+                'init(), uninit() declarations, '+
+                'and a set of include() calls at the head\n';
         throw new Error(text);
     }
 
@@ -355,9 +451,13 @@ init = function() {
             )
         );
 
+        var input = this.unrelatePath( dirname, cfg.options.input );
+        var output = this.unrelatePath( dirname, cfg.options.output );
+
         return {
-            input  : this.relatePath( cfg.options.input, dirname ),
-            output : this.relatePath( cfg.options.output, dirname ),
+            input  : input,
+            output : output,
+            location : this.getLocation(input),
             plain  : cfg.options.plain,
             outdir : cfg.options.scope != 'subdir',
             remote : cfg.options.scope == 'global',

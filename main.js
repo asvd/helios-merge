@@ -9,8 +9,8 @@ init = function() {
 
     var finalize = function( tree ) {
         var queue = logic.getSortedQueue(tree.modules, cfg.quiet);
-        var init = logic.getInit(tree.modules, queue, cfg.quiet);
-        var uninit = logic.getUninit(tree.modules, queue, cfg.quiet);
+        var init = logic.getInit(tree.modules, queue, cfg.location, cfg.quiet);
+        var uninit = logic.getUninit(tree.modules, queue, cfg.location, cfg.quiet);
         var code = logic.getCode(tree.external, init, uninit, cfg.plain, cfg.quiet);
         logic.write( cfg.output, code, cfg.quiet );
     }

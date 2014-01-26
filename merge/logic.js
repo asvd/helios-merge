@@ -58,17 +58,17 @@ init = function() {
             modules[mod.path] = mod;
 
             // dispatching dependencies between bundle / include
-            var i, j, dep, isSubdir, isRemote, include;
+            var i, j, dep, isSubdir, isRemote, bundle;
             for ( i = 0; i < mod.dependencies.length; i++ ) {
                 dep = mod.dependencies[i];
                 isSubdir = util.isSubdir(dep, location);
                 isRemote = util.isRemote(dep);
                 
-                include = isSubdir ||
-                    (isRemote && remote) ||
-                    (!isRemote && outdir);
+                bundle = isSubdir ||
+                    (!isRemote && outdir) ||
+                    (isRemote && remote);
 
-                if ( include ) {
+                if ( bundle ) {
                     // will be bundled
                     newDependencies.push(dep);
 
@@ -156,7 +156,7 @@ init = function() {
 
     /**
      * Checks if all module deps are in the sorted queue head (and
-     * thus is module is ready to be moved to the queue head)
+     * thus that module is ready to be moved itself to the queue head)
      * 
      * @param {Object} modules path-based modules tree
      * @param {Array} queue
@@ -198,28 +198,34 @@ init = function() {
      * 
      * @param {Object} modules path-based modules tree
      * @param {Array} queue of path (ordered)
+     * @param {String} location location of the main bundled module
      * @param {Boolean} quiet do not display info messages
      * 
      * @returns {String} huge init method
      */
-    helios.tools.merge.logic.getInit = function( modules, queue, quiet ) {
+    helios.tools.merge.logic.getInit = function( modules, queue, location, quiet ) {
         if ( !quiet ) {
             console.log('\nBundling modules...');
         }
-
+        
         var result = '';
-        var i, module;
+        var i, module, path;
         for ( i = 0; i < queue.length; i++ ) {
             module = modules[queue[i]];
             if ( !quiet ) {
                 console.log(module.path);
             }
 
-            result += '\n// ' + module.path + '\n';
+            path = util.relatePath( location, module.path );
 
-            result += '(function(){';
-            result += module.init;
-            result += '})();\n\n';
+            result += '\n// ' + path + '\n\n';
+            result += module.comment;
+
+            if (module.init) {
+                result += '(function()';
+                result += module.init;
+                result += ')();\n\n\n';
+            }
         }
 
         return result;
@@ -232,25 +238,31 @@ init = function() {
      * 
      * @param {Object} modules path-based modules tree
      * @param {Array} queue of path (ordered)
+     * @param {String} location location of the main bundled module
      * @param {Boolean} quiet do not display info messages
      * 
      * @returns {String} huge init method
      */
-    helios.tools.merge.logic.getUninit = function( modules, queue, quiet ) {
+    helios.tools.merge.logic.getUninit = function( modules, queue, location, quiet ) {
         if ( !quiet ) {
             console.log('\nBundling common uninitializer...');
         }
 
         var result = '';
 
-        var i, module;
+        var i, module, path;
         for ( i = queue.length-1; i >= 0; i-- ) {
             module = modules[queue[i]];
             if ( module.uninit ) {
-                result += '\n// ' + module.path + '\n';
-                result += '(function(){';
-                result += module.uninit;
-                result += '})();\n\n';
+                path = util.relatePath( location, module.path );
+
+                result += '\n// ' + path + '\n\n';
+
+                if (module.uninit) {
+                    result += '(function()';
+                    result += module.uninit;
+                    result += ')();\n\n\n';
+                }
             };
         }
 
@@ -275,24 +287,42 @@ init = function() {
             console.log('\nGenerating the code...');
         }
 
-        var result = '';
+        var result = [
+        '/**',
+        ' * This is a set of Helios Kernel modules merged by helios-merge tool',
+        ' *',
+        ' * http://asvd.github.io/helios-kernel',
+        ' * http://github.com/asvd/helios-merge',
+        ' *',
+        ' * The comment related to this code normally preceeds the main module',
+        ' * (following the last here, according to the dependency order)',
+        ' */',
+        '',
+        ''
+        ].join('\n');
+
         if ( plain ) {
-            result = init;
+            result += init;
         } else {
-            for ( var i = 0; i < external.length; i++ ) {
-                result += '\ninclude(\''+external[i]+'\');'
+            if ( external.length ) {
+                for ( var i = 0; i < external.length; i++ ) {
+                    result += '\ninclude(\''+external[i]+'\');'
+                }
+
+                result += '\n\n';
             }
-            result += '\n\n';
 
             result += 'init = function() {\n';
             result += init;
             result += '\n\n};';
 
             result += '\n\n\n\n\n';
-            
-            result += 'uninit = function() {\n';
-            result += uninit;
-            result += '\n\n};';
+
+            if ( uninit ) {
+                result += 'uninit = function() {\n';
+                result += uninit;
+                result += '\n\n};';
+            }
         }
 
         return result;
@@ -315,7 +345,7 @@ init = function() {
         util.writeFile( path, code );
 
         if ( !quiet ) {
-            console.log('Modules are bundled into '+ path);
+            console.log('Modules are bundled into '+path);
         }
     }
     
