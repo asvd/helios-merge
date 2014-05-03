@@ -14,17 +14,17 @@ minimizaiton. `helios-merge` is based upon the
 
 ### Installation
 
-- *Globally using [npm](https://npmjs.org/)*:
+- *Globally* using [npm](https://npmjs.org/):
 
 ```sh
 $ sudo npm install helios-merge -g
 ```
 
-In this case you can simply launch the tool with `helios-merge` from
-anywhere (as it is shown in the examples below). In fact the global
-installation is not necessary.
+In this case you can simply launch the tool as `helios-merge` from
+anywhere (as it is shown in the examples below). Nevertheless the
+global installation is not necessary.
 
-- *Locally using [npm](https://npmjs.org/)*:
+- *Locally* using [npm](https://npmjs.org/):
 
 ```sh
 $ npm install helios-merge
@@ -33,10 +33,10 @@ $ npm install helios-merge
 If you install it like this, the tool can be launched using
 
 ```sh
-$ node ./node_modules/helios-merge/helios-merge.js
+$ node ./node_modules/helios-merge/helios-merge.js ...
 ```
 
-- *Third option* is to download the distribution using [this
+- *Download* the distribution using [this
 link](https://github.com/asvd/helios-merge/releases/download/v0.1.0/helios-merge-0.1.0.tar.gz).
 In latter case you will have to launch the tool as `node
 path/to/helios-merge.js` instead of simply `helios-merge` in the
