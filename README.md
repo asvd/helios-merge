@@ -38,13 +38,12 @@ $ node ./node_modules/helios-merge/helios-merge.js ...
 
 - *Download* the distribution using [this
 link](https://github.com/asvd/helios-merge/releases/download/v0.1.0/helios-merge-0.1.0.tar.gz).
-In latter case you will have to launch the tool as
+In latter case you will have to launch the tool with a command like this:
 
 ```sh
 $ node path/to/helios-merge.js ...
 ```
 
-instead of simply `helios-merge` in the examples below.
 
 
 
