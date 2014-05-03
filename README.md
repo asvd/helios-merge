@@ -21,8 +21,8 @@ $ sudo npm install helios-merge -g
 ```
 
 In this case you can simply launch the tool as `helios-merge` from
-anywhere (as it is shown in the examples below). Nevertheless the
-global installation is not necessary.
+anywhere (as shown in the examples below). Nevertheless the global
+installation is not necessary.
 
 - *Locally* using [npm](https://npmjs.org/):
 
