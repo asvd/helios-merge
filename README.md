@@ -30,15 +30,15 @@ installation is not necessary.
 $ npm install helios-merge
 ```
 
-If you install it like this, the tool can be launched using
+If you install helios-merge locally, it can be launched using
 
 ```sh
 $ node ./node_modules/helios-merge/helios-merge.js ...
 ```
 
 - *Download* the distribution using [this
-link](https://github.com/asvd/helios-merge/releases/download/v0.1.0/helios-merge-0.1.0.tar.gz).
-In latter case you will have to launch the tool like this:
+link](https://github.com/asvd/helios-merge/releases/download/v0.1.0/helios-merge-0.1.0.tar.gz),
+unpack it, and launch from that location:
 
 ```sh
 $ node path/to/helios-merge.js ...
@@ -128,7 +128,7 @@ init = function() {
 ```
 
 
-Bundling the library using `helios-merge` like this:
+Bundling the library using `helios-merge`:
 
 
 ```sh
@@ -157,4 +157,3 @@ fact the code of each original module will additionally be wrapped
 into an anonymous function to make use of local variables declared in
 each original module's initializer.
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asvd/helios-merge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
