@@ -14,6 +14,8 @@ minimizaiton. `helios-merge` is based upon the
 
 ### Installation
 
+There are several options of how the tool can be installed:
+
 - *Globally* using [npm](https://npmjs.org/):
 
 ```sh
