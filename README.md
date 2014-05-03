@@ -30,7 +30,7 @@ installation is not necessary.
 $ npm install helios-merge
 ```
 
-If you install helios-merge locally, it can be launched using
+If you install `helios-merge` locally, it can be launched using
 
 ```sh
 $ node ./node_modules/helios-merge/helios-merge.js ...
