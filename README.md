@@ -6,7 +6,7 @@ based upon the [Helios Kernel](http://asvd.github.io/helios-kernel/)
 module format. This tool can be used to prepare a library internally
 managed as several Helios Kernel modules to release as a plain
 JavaScript file (suitable for using without Helios Kernel), or to
-simply get a bundled module suitable for further
+simply get a bundled module prepared for further
 minimizaiton. `helios-merge` is based upon the
 [Esprima](https://github.com/ariya/esprima) and
 [Escodegen](https://github.com/Constellation/escodegen) projects.
