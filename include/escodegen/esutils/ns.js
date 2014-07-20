@@ -23,8 +23,8 @@ init = function() {
         return obj;
     }
 
-    ns('esutils');
-    esutils.ns = ns;
+    ns('LIB.esutils');
+    LIB.esutils.ns = ns;
 
 }
 

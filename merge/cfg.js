@@ -6,7 +6,7 @@
 include('ns.js');
         
 init = function() {
-    helios.tools.merge.ns('helios.tools.merge.cfg');
+    LIB.helios.tools.merge.ns('LIB.helios.tools.merge.cfg');
 
 
     // help message head
@@ -53,7 +53,7 @@ init = function() {
         return error;
     };
     
-    helios.tools.merge.cfg.config = {
+    LIB.helios.tools.merge.cfg.config = {
         info : info,
         options : options,
         validate : validate
@@ -68,7 +68,7 @@ init = function() {
      * 
      * @returns {Object} processed cfg
      */
-    helios.tools.merge.cfg.processCfg = function( cfg ) {
+    LIB.helios.tools.merge.cfg.processCfg = function( cfg ) {
         var def = {
             input     : './main.js',
             quiet  : false,

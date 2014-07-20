@@ -661,16 +661,16 @@ init = function() {
         return tree;
     }
 
-    estraverse = {};
+    LIB.estraverse = {};
 
-    estraverse.version = '1.3.3-dev';
-    estraverse.Syntax = Syntax;
-    estraverse.traverse = traverse;
-    estraverse.replace = replace;
-    estraverse.attachComments = attachComments;
-    estraverse.VisitorKeys = VisitorKeys;
-    estraverse.VisitorOption = VisitorOption;
-    estraverse.Controller = Controller;
+    LIB.estraverse.version = '1.3.3-dev';
+    LIB.estraverse.Syntax = Syntax;
+    LIB.estraverse.traverse = traverse;
+    LIB.estraverse.replace = replace;
+    LIB.estraverse.attachComments = attachComments;
+    LIB.estraverse.VisitorKeys = VisitorKeys;
+    LIB.estraverse.VisitorOption = VisitorOption;
+    LIB.estraverse.Controller = Controller;
 
 }
 

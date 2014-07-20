@@ -80,9 +80,9 @@ init = function() {
     }
 
 
-    esutils.ns('esutils.code');
+    LIB.esutils.ns('LIB.esutils.code');
 
-    esutils.code = {
+    LIB.esutils.code = {
         isDecimalDigit: isDecimalDigit,
         isHexDigit: isHexDigit,
         isOctalDigit: isOctalDigit,

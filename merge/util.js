@@ -12,7 +12,7 @@ include('command.js');
 
 
 init = function() {
-    helios.tools.merge.ns('helios.tools.merge.util');
+    LIB.helios.tools.merge.ns('LIB.helios.tools.merge.util');
 
     /**
      * Relates the given absolute path to the given location
@@ -22,7 +22,7 @@ init = function() {
      * 
      * @returns {String} related path ('../lib.js');
      */
-    helios.tools.merge.util.relatePath = function( location, absolute ) {
+    LIB.helios.tools.merge.util.relatePath = function( location, absolute ) {
         location += '/';
         var matching = true, locWord, absWord, locSize, absSize;
         while(matching){
@@ -67,7 +67,7 @@ init = function() {
      * 
      * @returns {String} absolute path ('/home/abc/project/lib.js')
      */
-    helios.tools.merge.util.unrelatePath = function( location, relative ) {
+    LIB.helios.tools.merge.util.unrelatePath = function( location, relative ) {
         if ( relative[0] == '/' ) {
             // already absolute
             return relative;
@@ -96,14 +96,14 @@ init = function() {
     /**
      * Configs for esprima and escodegen
      */
-    helios.tools.merge.util._esprimaCfg = {
+    LIB.helios.tools.merge.util._esprimaCfg = {
         comment : true,
         loc : true,
         range : true,
         tokens : true
     };
     
-    helios.tools.merge.util._escodegenCfg = {
+    LIB.helios.tools.merge.util._escodegenCfg = {
         comment : true,
         format : {
             indent : {
@@ -121,7 +121,7 @@ init = function() {
      * @param {String} path of the module to read
      * @param {Function} cb to provide data into
      */
-    helios.tools.merge.util.readModule = function( path, cb ) {
+    LIB.helios.tools.merge.util.readModule = function( path, cb ) {
         var me = this;
 
         // called after the file contents is loaded
@@ -165,7 +165,7 @@ init = function() {
      * @param {String} path relative path
      * @param {String} childPath path of the dependent module
      */
-    helios.tools.merge.util._getAbsolute = function( path, childPath ) {
+    LIB.helios.tools.merge.util._getAbsolute = function( path, childPath ) {
         // concatinating path with the child's path (without the filename)
         // path starting from 'http://' or '/' treated as absolute
         if ( path.substr(0,7).toLowerCase() != 'http://' &&
@@ -193,7 +193,7 @@ init = function() {
      * 
      * @returns {String} location (i.e. '/path/to')
      */
-    helios.tools.merge.util.getLocation = function( path ) {
+    LIB.helios.tools.merge.util.getLocation = function( path ) {
         return path.substr( 0, path.lastIndexOf('/') );
     }
     
@@ -205,7 +205,7 @@ init = function() {
      * @param {String} path to check
      * @returns {Boolean} true if path is remote
      */
-    helios.tools.merge.util.isRemote = function( path ) {
+    LIB.helios.tools.merge.util.isRemote = function( path ) {
         return ( path.substr(0,7).toLowerCase() == 'http://' ||
                  path.substr(0,8).toLowerCase() == 'https://' );
     }
@@ -221,7 +221,7 @@ init = function() {
      * 
      * @returns {Boolean} true if path is in subdirectory
      */
-    helios.tools.merge.util.isSubdir = function( path, location ) {
+    LIB.helios.tools.merge.util.isSubdir = function( path, location ) {
         var result = (
             path.indexOf(location) == 0 &&
             (
@@ -242,7 +242,7 @@ init = function() {
      * 
      * @returns {String} file contents
      */
-    helios.tools.merge.util.readLocal = function( path ) {
+    LIB.helios.tools.merge.util.readLocal = function( path ) {
         var fs = require( "fs" );
         var error = '';
 
@@ -268,7 +268,7 @@ init = function() {
      * @param {String} path remote path of the file to read
      * @param {Function} cb to provide content into
      */
-    helios.tools.merge.util.readRemote = function( path, cb ) {
+    LIB.helios.tools.merge.util.readRemote = function( path, cb ) {
         var http = require('http');
 
         var sCb = function(res) {
@@ -303,7 +303,7 @@ init = function() {
      * @param {String} path absolute path of the file to write
      * @param {String} content to put into the file
      */
-    helios.tools.merge.util.writeFile = function( path, code ) {
+    LIB.helios.tools.merge.util.writeFile = function( path, code ) {
         var fs = require('fs');
         
         var cb = function(err) {
@@ -325,7 +325,7 @@ init = function() {
      * 
      * @returns {Object}
      */
-    helios.tools.merge.util._parse = function( code ) {
+    LIB.helios.tools.merge.util._parse = function( code ) {
         var result = {
             dependencies : [], // list of included modules
             init : '',         // initializer code
@@ -333,8 +333,8 @@ init = function() {
             comment : ''       // module leading comment
         };
 
-        var ast = esprima.parse( code, this._esprimaCfg );
-        ast = escodegen.attachComments( ast, ast.comments, ast.tokens );
+        var ast = LIB.esprima.parse( code, this._esprimaCfg );
+        ast = LIB.escodegen.attachComments( ast, ast.comments, ast.tokens );
 
         result.comment = this._genLeadingComment( ast.leadingComments || [] );
 
@@ -370,13 +370,13 @@ init = function() {
                 } else if ( expr.type == 'AssignmentExpression' ) {
                     if ( expr.left.name == 'init' ) {
                         // module initializer, compiling the source
-                        result.init = escodegen.generate(
+                        result.init = LIB.escodegen.generate(
                             expr.right.body, this._escodegenCfg
                         );
                         continue;
                     } else if ( expr.left.name == 'uninit' ) {
                         // module uninitializer, compiling the source
-                        result.uninit = escodegen.generate(
+                        result.uninit = LIB.escodegen.generate(
                             expr.right.body, this._escodegenCfg
                         );
                         continue;
@@ -405,7 +405,7 @@ init = function() {
      * 
      * @returns {String} generated comment to append
      */
-    helios.tools.merge.util._genLeadingComment = function( leadingComments ){
+    LIB.helios.tools.merge.util._genLeadingComment = function( leadingComments ){
         var result = '', com;
         for ( var i = 0; i < leadingComments.length; i++ ) {
             com = leadingComments[i];
@@ -428,7 +428,7 @@ init = function() {
      * @param {String} problem
      * @param {Number} line
      */
-    helios.tools.merge.util._complain = function( problem, line ) {
+    LIB.helios.tools.merge.util._complain = function( problem, line ) {
         var text = 'Line ' + line + ': \n';
         text += 'Unexpected ' + problem + '\n';
         text += 'Helios Module should only contain '+
@@ -442,12 +442,12 @@ init = function() {
     /**
      * Reads the arguments and generates the application config
      */
-    helios.tools.merge.util.getCfg = function() {
+    LIB.helios.tools.merge.util.getCfg = function() {
         var dirname = process.cwd();
-        var cfg = helios.tools.merge.cfg.processCfg(
-            helios.tools.merge.command.processArgs(
+        var cfg = LIB.helios.tools.merge.cfg.processCfg(
+            LIB.helios.tools.merge.command.processArgs(
                 process.argv,
-                helios.tools.merge.cfg.config
+                LIB.helios.tools.merge.cfg.config
             )
         );
 

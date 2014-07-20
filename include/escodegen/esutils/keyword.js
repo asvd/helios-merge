@@ -26,7 +26,7 @@ include('ns.js');
 include('code.js');
 
 init = function() {
-    var code = esutils.code;
+    var code = LIB.esutils.code;
 
     function isStrictModeReservedWordES6(id) {
         switch (id) {
@@ -109,9 +109,9 @@ init = function() {
     }
 
 
-    esutils.ns('esutils.keyword');
+    LIB.esutils.ns('LIB.esutils.keyword');
 
-    esutils.keyword = {
+    LIB.esutils.keyword = {
         isKeywordES5: isKeywordES5,
         isKeywordES6: isKeywordES6,
         isRestrictedWord: isRestrictedWord,

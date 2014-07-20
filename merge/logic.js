@@ -7,8 +7,8 @@ include('ns.js');
 include('util.js');
 
 init = function() {
-    helios.tools.merge.ns('helios.tools.merge.logic');
-    var util = helios.tools.merge.util;
+    LIB.helios.tools.merge.ns('LIB.helios.tools.merge.logic');
+    var util = LIB.helios.tools.merge.util;
     
 
 
@@ -21,7 +21,7 @@ init = function() {
      * @param {Boolean} quiet do not display info-messages
      * @param {Function} cb to provide data into
      */
-    helios.tools.merge.logic.getModulesTree = function(path, outdir, remote, quiet, cb) {
+    LIB.helios.tools.merge.logic.getModulesTree = function(path, outdir, remote, quiet, cb) {
         if ( !quiet ) {
             console.log('\nLoading modules tree...');
         }
@@ -110,7 +110,7 @@ init = function() {
      * 
      * @returns {Array} sorted list of paths
      */
-    helios.tools.merge.logic.getSortedQueue = function( modules, quiet ) {
+    LIB.helios.tools.merge.logic.getSortedQueue = function( modules, quiet ) {
         if ( !quiet ) {
             console.log('\nGenerating dependency order...');
         }
@@ -165,7 +165,7 @@ init = function() {
      * 
      * @returns {Boolean} true if all dependencies are on the head
      */
-    helios.tools.merge.logic._checkDeps = function( modules, queue, ordered, path ) {
+    LIB.helios.tools.merge.logic._checkDeps = function( modules, queue, ordered, path ) {
         var module = modules[path];
 
         // cloning deps
@@ -203,7 +203,7 @@ init = function() {
      * 
      * @returns {String} huge init method
      */
-    helios.tools.merge.logic.getInit = function( modules, queue, location, quiet ) {
+    LIB.helios.tools.merge.logic.getInit = function( modules, queue, location, quiet ) {
         if ( !quiet ) {
             console.log('\nBundling modules...');
         }
@@ -243,7 +243,7 @@ init = function() {
      * 
      * @returns {String} huge init method
      */
-    helios.tools.merge.logic.getUninit = function( modules, queue, location, quiet ) {
+    LIB.helios.tools.merge.logic.getUninit = function( modules, queue, location, quiet ) {
         if ( !quiet ) {
             console.log('\nBundling common uninitializer...');
         }
@@ -282,7 +282,7 @@ init = function() {
      * 
      * @returns {String} the whole new code
      */
-    helios.tools.merge.logic.getCode = function( external, init, uninit, plain, quiet ) {
+    LIB.helios.tools.merge.logic.getCode = function( external, init, uninit, plain, quiet ) {
         if ( !quiet ) {
             console.log('\nGenerating the code...');
         }
@@ -337,7 +337,7 @@ init = function() {
      * @param {String} code to write
      * @param {Boolean} quiet do not display info messages
      */
-    helios.tools.merge.logic.write = function( path, code, quiet ) {
+    LIB.helios.tools.merge.logic.write = function( path, code, quiet ) {
         if ( !quiet ) {
             console.log( '\nWriting into '+path+'...' );
         }

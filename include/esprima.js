@@ -3801,17 +3801,17 @@ init = function() {
         return program;
     }
 
-      esprima = {};
+      LIB.esprima = {};
 
     // Sync with *.json manifests.
-    esprima.version = '1.1.0-dev';
+    LIB.esprima.version = '1.1.0-dev';
 
-    esprima.tokenize = tokenize;
+    LIB.esprima.tokenize = tokenize;
 
-    esprima.parse = parse;
+    LIB.esprima.parse = parse;
 
     // Deep copy.
-    esprima.Syntax = (function () {
+    LIB.esprima.Syntax = (function () {
         var name, types = {};
 
         if (typeof Object.create === 'function') {

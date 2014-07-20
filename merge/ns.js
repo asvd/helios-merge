@@ -22,8 +22,8 @@ init = function() {
         return obj;
     }
 
-    ns('helios.tools.merge.ns');
+    ns('LIB.helios.tools.merge.ns');
 
-    helios.tools.merge.ns = ns;
+    LIB.helios.tools.merge.ns = ns;
 
 }

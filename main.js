@@ -13,11 +13,11 @@ include('merge/util.js');
 include('merge/logic.js');
 
 init = function() {
-    var util = helios.tools.merge.util;
-    var logic = helios.tools.merge.logic;
+    var util = LIB.helios.tools.merge.util;
+    var logic = LIB.helios.tools.merge.logic;
     var cfg = util.getCfg();
 
-    var finalize = function( tree ) {
+    var finalize = function(tree) {
         var queue = logic.getSortedQueue(tree.modules, cfg.quiet);
         var init = logic.getInit(tree.modules, queue, cfg.location, cfg.quiet);
         var uninit = logic.getUninit(tree.modules, queue, cfg.location, cfg.quiet);
@@ -26,8 +26,7 @@ init = function() {
     }
 
     logic.getModulesTree(
-        cfg.input, cfg.outdir, cfg.remote, cfg.quiet,
-        finalize
+        cfg.input, cfg.outdir, cfg.remote, cfg.quiet, finalize
     );
 }
 

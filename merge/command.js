@@ -7,7 +7,7 @@
 include('ns.js');
         
 init = function() {
-    helios.tools.merge.ns('helios.tools.merge.command');
+    LIB.helios.tools.merge.ns('LIB.helios.tools.merge.command');
     
     /**
      * Processes commandline arguments using the provided config
@@ -19,7 +19,7 @@ init = function() {
      * 
      * @returns {Object} parsed argumenst (upon success)
      */
-    helios.tools.merge.command.processArgs = function( argv, cfg ) {
+    LIB.helios.tools.merge.command.processArgs = function( argv, cfg ) {
         var parsed = this._parseArgs( argv );
         return this._readCfg( parsed, cfg );
     }
@@ -33,7 +33,7 @@ init = function() {
      * @returns {Object} key-value paired set of provided command-line
      * argument options
      */
-    helios.tools.merge.command._parseArgs = function(argv) {
+    LIB.helios.tools.merge.command._parseArgs = function(argv) {
         var result = {
             options : {},
             arguments : []
@@ -65,7 +65,7 @@ init = function() {
      * 
      * @returns {Object} cfg object
      */
-    helios.tools.merge.command._readCfg = function( args, cfg ) {
+    LIB.helios.tools.merge.command._readCfg = function( args, cfg ) {
         var argsOk = true;
         var errorMsg = '';
         var help = false;
@@ -132,11 +132,11 @@ init = function() {
         }
 
         if ( !argsOk ) {
-            helios.tools.merge.command._printHelp(cfg);
+            LIB.helios.tools.merge.command._printHelp(cfg);
             console.log( '\nError: ' + errorMsg + '\n' );
             process.exit();
         } else if ( help ) {
-            helios.tools.merge.command._printHelp(cfg);
+            LIB.helios.tools.merge.command._printHelp(cfg);
             process.exit();
         }
 
@@ -150,7 +150,7 @@ init = function() {
      * 
      * @param {Object} cfg application config object
      */
-    helios.tools.merge.command._printHelp = function(cfg) {
+    LIB.helios.tools.merge.command._printHelp = function(cfg) {
         var head = [
             '',
             cfg.info,

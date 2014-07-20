@@ -290,7 +290,7 @@ init = function() {
 
     function endsWithLineTerminator(str) {
         var len = str.length;
-        return len && esutils.code.isLineTerminator(str.charCodeAt(len - 1));
+        return len && LIB.esutils.code.isLineTerminator(str.charCodeAt(len - 1));
     }
 
     function updateDeeply(target, override) {
@@ -450,7 +450,7 @@ init = function() {
             hex = code.toString(16).toUpperCase();
             if (json || code > 0xFF) {
                 result += 'u' + '0000'.slice(hex.length) + hex;
-            } else if (code === 0x0000 && !esutils.code.isDecimalDigit(next)) {
+            } else if (code === 0x0000 && !LIB.esutils.code.isDecimalDigit(next)) {
                 result += '0';
             } else if (code === 0x000B  /* \v */) { // '\v'
                 result += 'x0B';
@@ -519,7 +519,7 @@ init = function() {
                 ++doubleQuotes;
             } else if (code === 0x2F  /* / */ && json) {
                 result += '\\';
-            } else if (esutils.code.isLineTerminator(code) || code === 0x5C  /* \ */) {
+            } else if (LIB.esutils.code.isLineTerminator(code) || code === 0x5C  /* \ */) {
                 result += escapeDisallowedCharacter(code);
                 continue;
             } else if ((json && code < 0x20  /* SP */) || !(json || escapeless || (code >= 0x20  /* SP */ && code <= 0x7E  /* ~ */))) {
@@ -575,11 +575,11 @@ init = function() {
             rightCharCode = rightSource.charCodeAt(0);
 
         if ((leftCharCode === 0x2B  /* + */ || leftCharCode === 0x2D  /* - */) && leftCharCode === rightCharCode ||
-        esutils.code.isIdentifierPart(leftCharCode) && esutils.code.isIdentifierPart(rightCharCode) ||
+        LIB.esutils.code.isIdentifierPart(leftCharCode) && LIB.esutils.code.isIdentifierPart(rightCharCode) ||
         leftCharCode === 0x2F  /* / */ && rightCharCode === 0x69  /* i */) { // infix word operators all start with `i`
             return [left, noEmptySpace(), right];
-        } else if (esutils.code.isWhiteSpace(leftCharCode) || esutils.code.isLineTerminator(leftCharCode) ||
-                esutils.code.isWhiteSpace(rightCharCode) || esutils.code.isLineTerminator(rightCharCode)) {
+        } else if (LIB.esutils.code.isWhiteSpace(leftCharCode) || LIB.esutils.code.isLineTerminator(leftCharCode) ||
+                LIB.esutils.code.isWhiteSpace(rightCharCode) || LIB.esutils.code.isLineTerminator(rightCharCode)) {
             return [left, right];
         }
         return [left, space, right];
@@ -601,7 +601,7 @@ init = function() {
     function calculateSpaces(str) {
         var i;
         for (i = str.length - 1; i >= 0; --i) {
-            if (esutils.code.isLineTerminator(str.charCodeAt(i))) {
+            if (LIB.esutils.code.isLineTerminator(str.charCodeAt(i))) {
                 break;
             }
         }
@@ -618,7 +618,7 @@ init = function() {
         for (i = 1, len = array.length; i < len; ++i) {
             line = array[i];
             j = 0;
-            while (j < line.length && esutils.code.isWhiteSpace(line.charCodeAt(j))) {
+            while (j < line.length && LIB.esutils.code.isWhiteSpace(line.charCodeAt(j))) {
                 ++j;
             }
             if (spaces > j) {
@@ -936,7 +936,7 @@ init = function() {
 
             leftSource = fragment.toString();
 
-            if (leftSource.charCodeAt(leftSource.length - 1) === 0x2F /* / */ && esutils.code.isIdentifierPart(expr.operator.charCodeAt(0))) {
+            if (leftSource.charCodeAt(leftSource.length - 1) === 0x2F /* / */ && LIB.esutils.code.isIdentifierPart(expr.operator.charCodeAt(0))) {
                 result = [fragment, noEmptySpace(), expr.operator];
             } else {
                 result = join(fragment, expr.operator);
@@ -1050,7 +1050,7 @@ init = function() {
                     if (
                             fragment.indexOf('.') < 0 &&
                             !/[eExX]/.test(fragment) &&
-                            esutils.code.isDecimalDigit(fragment.charCodeAt(fragment.length - 1)) &&
+                            LIB.esutils.code.isDecimalDigit(fragment.charCodeAt(fragment.length - 1)) &&
                             !(fragment.length >= 2 && fragment.charCodeAt(0) === 48)  // '0'
                             ) {
                         result.push('.');
@@ -1085,7 +1085,7 @@ init = function() {
                     rightCharCode = fragment.toString().charCodeAt(0);
 
                     if (((leftCharCode === 0x2B  /* + */ || leftCharCode === 0x2D  /* - */) && leftCharCode === rightCharCode) ||
-                            (esutils.code.isIdentifierPart(leftCharCode) && esutils.code.isIdentifierPart(rightCharCode))) {
+                            (LIB.esutils.code.isIdentifierPart(leftCharCode) && LIB.esutils.code.isIdentifierPart(rightCharCode))) {
                         result.push(noEmptySpace(), fragment);
                     } else {
                         result.push(fragment);
@@ -2081,13 +2081,13 @@ init = function() {
 
     FORMAT_DEFAULTS = getDefaultOptions().format;
 
-    escodegen = {};
-    escodegen.version = '1.0.2-dev';
-    escodegen.generate = generate;
-    escodegen.attachComments = estraverse.attachComments;
-    escodegen.browser = false;
-    escodegen.FORMAT_MINIFY = FORMAT_MINIFY;
-    escodegen.FORMAT_DEFAULTS = FORMAT_DEFAULTS;
+    LIB.escodegen = {};
+    LIB.escodegen.version = '1.0.2-dev';
+    LIB.escodegen.generate = generate;
+    LIB.escodegen.attachComments = LIB.estraverse.attachComments;
+    LIB.escodegen.browser = false;
+    LIB.escodegen.FORMAT_MINIFY = FORMAT_MINIFY;
+    LIB.escodegen.FORMAT_DEFAULTS = FORMAT_DEFAULTS;
 
 }
 /* vim: set sw=4 ts=4 et tw=80 : */
