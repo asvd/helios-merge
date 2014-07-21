@@ -302,6 +302,11 @@ init = function() {
         ].join('\n');
 
         if ( plain ) {
+            result += [
+                '',
+                'LIB = {};',
+                ''
+            ].join('\n');
             result += init;
         } else {
             if ( external.length ) {
