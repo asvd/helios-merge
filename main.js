@@ -25,8 +25,6 @@ init = function() {
         logic.write( cfg.output, code, cfg.quiet );
     }
 
-    logic.getModulesTree(
-        cfg.input, cfg.outdir, cfg.remote, cfg.quiet, finalize
-    );
+    logic.getModulesTree(cfg.input, cfg.outdir, cfg.remote, cfg.quiet, finalize);
 }
 

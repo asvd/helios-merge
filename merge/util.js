@@ -22,20 +22,20 @@ init = function() {
      * 
      * @returns {String} related path ('../lib.js');
      */
-    LIB.helios.tools.merge.util.relatePath = function( location, absolute ) {
+    LIB.helios.tools.merge.util.relatePath = function(location, absolute) {
         location += '/';
         var matching = true, locWord, absWord, locSize, absSize;
         while(matching){
             absSize = absolute.indexOf('/');
             locSize = location.indexOf('/');
-            absWord = absolute.substr( 0, absSize );
-            locWord = location.substr( 0, locSize );
+            absWord = absolute.substr(0, absSize);
+            locWord = location.substr(0, locSize);
 
-            if ( absWord == locWord ) {
-                absolute = absolute.substr( absSize+1 );
-                location = location.substr( locSize+1 );
+            if (absWord == locWord) {
+                absolute = absolute.substr(absSize+1);
+                location = location.substr(locSize+1);
 
-                if ( location.length == 0 ) {
+                if (location.length == 0) {
                     matching = false;
                 }
             } else {
@@ -45,8 +45,8 @@ init = function() {
 
         var result = '';
 
-        for ( var i = 0; i < location.length; i++ ) {
-            if ( location.charAt(i) == '/' ) {
+        for (var i = 0; i < location.length; i++) {
+            if (location.charAt(i) == '/') {
                 result += '../';
             }
         }
@@ -67,8 +67,8 @@ init = function() {
      * 
      * @returns {String} absolute path ('/home/abc/project/lib.js')
      */
-    LIB.helios.tools.merge.util.unrelatePath = function( location, relative ) {
-        if ( relative[0] == '/' ) {
+    LIB.helios.tools.merge.util.unrelatePath = function(location, relative) {
+        if (relative[0] == '/') {
             // already absolute
             return relative;
         } else {
@@ -78,14 +78,14 @@ init = function() {
             var newPath = path;
             do {
                 path = newPath;
-                newPath = path.replace( /[\w-\.~]*\/\.\.\//, '' );
-            } while ( newPath!=path );
+                newPath = path.replace(/[\w-\.~]*\/\.\.\//, '');
+            } while (newPath!=path);
 
             // clearing cur-dir sequences such as './'
             do {
                 path = newPath;
                 newPath = path.replace(/\.\//,'');
-            } while ( newPath!=path );
+            } while (newPath!=path);
 
             return path;
         }
@@ -121,11 +121,11 @@ init = function() {
      * @param {String} path of the module to read
      * @param {Function} cb to provide data into
      */
-    LIB.helios.tools.merge.util.readModule = function( path, cb ) {
+    LIB.helios.tools.merge.util.readModule = function(path, cb) {
         var me = this;
 
         // called after the file contents is loaded
-        var sCb = function( code ) {
+        var sCb = function(code) {
             var data = null;
 
             try {
@@ -139,7 +139,7 @@ init = function() {
             data.path = path;
 
             // converting dependencies path to absolute
-            for ( var i = 0; i < data.dependencies.length; i++ ) {
+            for (var i = 0; i < data.dependencies.length; i++) {
                 data.dependencies[i] = me._getAbsolute(
                     data.dependencies[i], path
                 );
@@ -148,10 +148,10 @@ init = function() {
             cb(data);
         }
 
-        if ( this.isRemote(path) ) {
-            this.readRemote( path, sCb );
+        if (this.isRemote(path)) {
+            this.readRemote(path, sCb);
         } else {
-            sCb( this.readLocal(path) );
+            sCb(this.readLocal(path));
         }
         
     }
@@ -165,12 +165,12 @@ init = function() {
      * @param {String} path relative path
      * @param {String} childPath path of the dependent module
      */
-    LIB.helios.tools.merge.util._getAbsolute = function( path, childPath ) {
+    LIB.helios.tools.merge.util._getAbsolute = function(path, childPath) {
         // concatinating path with the child's path (without the filename)
         // path starting from 'http://' or '/' treated as absolute
-        if ( path.substr(0,7).toLowerCase() != 'http://' &&
-             path.substr(0,8).toLowerCase() != 'https://'&&
-             path.substr(0,1) != '/' ) {
+        if (path.substr(0,7).toLowerCase() != 'http://' &&
+            path.substr(0,8).toLowerCase() != 'https://'&&
+            path.substr(0,1) != '/') {
             path = this.getLocation(childPath) + '/' + path;
         }
 
@@ -178,8 +178,8 @@ init = function() {
         var newPath = path;
         do {
             path = newPath;
-            newPath = path.replace( /[\w\-\.~]*\/\.\.\//, '' );
-        } while ( newPath!=path );
+            newPath = path.replace(/[\w\-\.~]*\/\.\.\//, '');
+        } while (newPath!=path);
 
         return path;
     }
@@ -193,8 +193,8 @@ init = function() {
      * 
      * @returns {String} location (i.e. '/path/to')
      */
-    LIB.helios.tools.merge.util.getLocation = function( path ) {
-        return path.substr( 0, path.lastIndexOf('/') );
+    LIB.helios.tools.merge.util.getLocation = function(path) {
+        return path.substr(0, path.lastIndexOf('/'));
     }
     
     
@@ -205,9 +205,9 @@ init = function() {
      * @param {String} path to check
      * @returns {Boolean} true if path is remote
      */
-    LIB.helios.tools.merge.util.isRemote = function( path ) {
-        return ( path.substr(0,7).toLowerCase() == 'http://' ||
-                 path.substr(0,8).toLowerCase() == 'https://' );
+    LIB.helios.tools.merge.util.isRemote = function(path) {
+        return (path.substr(0,7).toLowerCase() == 'http://' ||
+                path.substr(0,8).toLowerCase() == 'https://');
     }
 
 
@@ -221,7 +221,7 @@ init = function() {
      * 
      * @returns {Boolean} true if path is in subdirectory
      */
-    LIB.helios.tools.merge.util.isSubdir = function( path, location ) {
+    LIB.helios.tools.merge.util.isSubdir = function(path, location) {
         var result = (
             path.indexOf(location) == 0 &&
             (
@@ -242,14 +242,14 @@ init = function() {
      * 
      * @returns {String} file contents
      */
-    LIB.helios.tools.merge.util.readLocal = function( path ) {
-        var fs = require( "fs" );
+    LIB.helios.tools.merge.util.readLocal = function(path) {
+        var fs = require("fs");
         var error = '';
 
         try {
             var buf = fs.readFileSync(path);
-        } catch ( e ) {
-            if ( e.code == 'ENOENT' ) {
+        } catch (e) {
+            if (e.code == 'ENOENT') {
                 throw e;
             } else {
                 throw e;
@@ -268,16 +268,16 @@ init = function() {
      * @param {String} path remote path of the file to read
      * @param {Function} cb to provide content into
      */
-    LIB.helios.tools.merge.util.readRemote = function( path, cb ) {
+    LIB.helios.tools.merge.util.readRemote = function(path, cb) {
         var http = require('http');
 
         var sCb = function(res) {
-            if ( res.statusCode != 200 ) {
+            if (res.statusCode != 200) {
                 fCb('HTTP responce status code: ' + res.statusCode);
             } else {
                 var content = '';
 
-                res.on( 'end', function(){ cb(content); } );
+                res.on('end', function(){cb(content);});
                 res.on(
                     'readable',
                     function() {
@@ -292,7 +292,7 @@ init = function() {
             throw new Error(e.message);
         }
 
-        http.get( path, sCb ).on( 'error', fCb );
+        http.get(path, sCb).on('error', fCb);
     }
 
     
@@ -303,7 +303,7 @@ init = function() {
      * @param {String} path absolute path of the file to write
      * @param {String} content to put into the file
      */
-    LIB.helios.tools.merge.util.writeFile = function( path, code ) {
+    LIB.helios.tools.merge.util.writeFile = function(path, code) {
         var fs = require('fs');
         
         var cb = function(err) {
@@ -325,7 +325,7 @@ init = function() {
      * 
      * @returns {Object}
      */
-    LIB.helios.tools.merge.util._parse = function( code ) {
+    LIB.helios.tools.merge.util._parse = function(code) {
         var result = {
             dependencies : [], // list of included modules
             init : '',         // initializer code
@@ -333,23 +333,23 @@ init = function() {
             comment : ''       // module leading comment
         };
 
-        var ast = LIB.esprima.parse( code, this._esprimaCfg );
-        ast = LIB.escodegen.attachComments( ast, ast.comments, ast.tokens );
+        var ast = LIB.esprima.parse(code, this._esprimaCfg);
+        ast = LIB.escodegen.attachComments(ast, ast.comments, ast.tokens);
 
-        result.comment = this._genLeadingComment( ast.leadingComments || [] );
+        result.comment = this._genLeadingComment(ast.leadingComments || []);
 
         // running through top-level entries
         var expr, reason, node;
-        for ( var i = 0; i < ast.body.length; i++ ) {
+        for (var i = 0; i < ast.body.length; i++) {
             node = ast.body[i];
-            if ( node.type != 'ExpressionStatement' ) {
-                this._complain( node.type, node.loc.start.line );
+            if (node.type != 'ExpressionStatement') {
+                this._complain(node.type, node.loc.start.line);
             } else {
                 expr = node.expression;
-                if ( expr.type == 'CallExpression' ) {
-                    if ( expr.callee.name == 'include' ) {
+                if (expr.type == 'CallExpression') {
+                    if (expr.callee.name == 'include') {
                         // include() expr
-                        if ( typeof expr.arguments != 'undefined' &&
+                        if (typeof expr.arguments != 'undefined' &&
                              typeof expr.arguments[0] != 'undefined' &&
                              typeof expr.arguments[0].value != 'undefined') {
                             result.dependencies.push(
@@ -367,14 +367,14 @@ init = function() {
                         );
                     }
 
-                } else if ( expr.type == 'AssignmentExpression' ) {
-                    if ( expr.left.name == 'init' ) {
+                } else if (expr.type == 'AssignmentExpression') {
+                    if (expr.left.name == 'init') {
                         // module initializer, compiling the source
                         result.init = LIB.escodegen.generate(
                             expr.right.body, this._escodegenCfg
                         );
                         continue;
-                    } else if ( expr.left.name == 'uninit' ) {
+                    } else if (expr.left.name == 'uninit') {
                         // module uninitializer, compiling the source
                         result.uninit = LIB.escodegen.generate(
                             expr.right.body, this._escodegenCfg
@@ -405,13 +405,13 @@ init = function() {
      * 
      * @returns {String} generated comment to append
      */
-    LIB.helios.tools.merge.util._genLeadingComment = function( leadingComments ){
+    LIB.helios.tools.merge.util._genLeadingComment = function(leadingComments){
         var result = '', com;
-        for ( var i = 0; i < leadingComments.length; i++ ) {
+        for (var i = 0; i < leadingComments.length; i++) {
             com = leadingComments[i];
-            if ( com.type == 'Block' ) {
+            if (com.type == 'Block') {
                 result += '/*' + com.value + '*/\n';
-            } else if ( com.type == 'Line' ) {
+            } else if (com.type == 'Line') {
                 result += '//' + com.value + '\n';
             }
         }
@@ -428,7 +428,7 @@ init = function() {
      * @param {String} problem
      * @param {Number} line
      */
-    LIB.helios.tools.merge.util._complain = function( problem, line ) {
+    LIB.helios.tools.merge.util._complain = function(problem, line) {
         var text = 'Line ' + line + ': \n';
         text += 'Unexpected ' + problem + '\n';
         text += 'Helios Module should only contain '+
@@ -451,8 +451,8 @@ init = function() {
             )
         );
 
-        var input = this.unrelatePath( dirname, cfg.options.input );
-        var output = this.unrelatePath( dirname, cfg.options.output );
+        var input = this.unrelatePath(dirname, cfg.options.input);
+        var output = this.unrelatePath(dirname, cfg.options.output);
 
         return {
             input  : input,

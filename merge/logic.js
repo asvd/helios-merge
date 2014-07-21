@@ -22,7 +22,7 @@ init = function() {
      * @param {Function} cb to provide data into
      */
     LIB.helios.tools.merge.logic.getModulesTree = function(path, outdir, remote, quiet, cb) {
-        if ( !quiet ) {
+        if (!quiet) {
             console.log('\nLoading modules tree...');
         }
 
@@ -34,13 +34,13 @@ init = function() {
         // runs through the list of modules
         var loop = function() {
             var modPath = list.pop();
-            if ( modPath ) {
+            if (modPath) {
                 // reading the next module
-                if ( !quiet ) {
+                if (!quiet) {
                     console.log(modPath);
                 }
 
-                util.readModule( modPath, process );
+                util.readModule(modPath, process);
             } else {
                 // all modules processed
                 var result = {
@@ -59,7 +59,7 @@ init = function() {
 
             // dispatching dependencies between bundle / include
             var i, j, dep, isSubdir, isRemote, bundle;
-            for ( i = 0; i < mod.dependencies.length; i++ ) {
+            for (i = 0; i < mod.dependencies.length; i++) {
                 dep = mod.dependencies[i];
                 isSubdir = util.isSubdir(dep, location);
                 isRemote = util.isRemote(dep);
@@ -68,22 +68,22 @@ init = function() {
                     (!isRemote && outdir) ||
                     (isRemote && remote);
 
-                if ( bundle ) {
+                if (bundle) {
                     // will be bundled
                     newDependencies.push(dep);
 
                     // checking if a dependency is not listed or parsed
                     var found = modules[dep];
-                    if ( !found ) {
-                        for ( j = 0; j < list.length; j++ ) {
-                            if ( list[j] == dep ) {
+                    if (!found) {
+                        for (j = 0; j < list.length; j++) {
+                            if (list[j] == dep) {
                                 found = true;
                                 break;
                             }
                         }
                     }
 
-                    if ( !found ) {
+                    if (!found) {
                         list.push(dep);
                     }
                 } else {
@@ -110,16 +110,16 @@ init = function() {
      * 
      * @returns {Array} sorted list of paths
      */
-    LIB.helios.tools.merge.logic.getSortedQueue = function( modules, quiet ) {
-        if ( !quiet ) {
+    LIB.helios.tools.merge.logic.getSortedQueue = function(modules, quiet) {
+        if (!quiet) {
             console.log('\nGenerating dependency order...');
         }
 
         var queue = [];
 
         // setting-up unsorted queue
-        for ( var path in modules ) {
-            if (modules.hasOwnProperty(path) ) {
+        for (var path in modules) {
+            if (modules.hasOwnProperty(path)) {
                 queue.push(path);
             }
         }
@@ -128,10 +128,10 @@ init = function() {
         var len = queue.length;
         var found;
 
-        while ( ordered < queue.length ) {
+        while (ordered < queue.length) {
             found = false;
-            for ( var i = ordered; i < queue.length; i++ ) {
-                if ( this._checkDeps( modules, queue, ordered, queue[i] ) ) {
+            for (var i = ordered; i < queue.length; i++) {
+                if (this._checkDeps(modules, queue, ordered, queue[i])) {
                     // all module deps are on the head
                     path = queue.splice(i,1)[0];
                     queue.splice(ordered,0,path);
@@ -141,7 +141,7 @@ init = function() {
                 }
             }
 
-            if ( !found && ordered < queue.length ) {
+            if (!found && ordered < queue.length) {
                 // unresolved modules persist
                 // means circular dependency (otherwise would be resolved)
                 var text = "Circular dependency starting from: " + queue[ordered];
@@ -165,25 +165,25 @@ init = function() {
      * 
      * @returns {Boolean} true if all dependencies are on the head
      */
-    LIB.helios.tools.merge.logic._checkDeps = function( modules, queue, ordered, path ) {
+    LIB.helios.tools.merge.logic._checkDeps = function(modules, queue, ordered, path) {
         var module = modules[path];
 
         // cloning deps
         // checkng if each dependency is on a sorted head
         var depPath, i, j, found;
 
-        for ( i = 0; i < module.dependencies.length; i++ ) {
+        for (i = 0; i < module.dependencies.length; i++) {
             found = false;
             depPath = module.dependencies[i];
 
-            for ( j = 0; j < ordered; j++ ) {
-                if ( queue[j] == depPath ) {
+            for (j = 0; j < ordered; j++) {
+                if (queue[j] == depPath) {
                     found = true;
                     break;
                 }
             }
 
-            if ( !found ) {
+            if (!found) {
                 return false;
             }
         }
@@ -203,20 +203,20 @@ init = function() {
      * 
      * @returns {String} huge init method
      */
-    LIB.helios.tools.merge.logic.getInit = function( modules, queue, location, quiet ) {
-        if ( !quiet ) {
+    LIB.helios.tools.merge.logic.getInit = function(modules, queue, location, quiet) {
+        if (!quiet) {
             console.log('\nBundling modules...');
         }
         
         var result = '';
         var i, module, path;
-        for ( i = 0; i < queue.length; i++ ) {
+        for (i = 0; i < queue.length; i++) {
             module = modules[queue[i]];
-            if ( !quiet ) {
+            if (!quiet) {
                 console.log(module.path);
             }
 
-            path = util.relatePath( location, module.path );
+            path = util.relatePath(location, module.path);
 
             result += '\n// ' + path + '\n\n';
             result += module.comment;
@@ -243,18 +243,18 @@ init = function() {
      * 
      * @returns {String} huge init method
      */
-    LIB.helios.tools.merge.logic.getUninit = function( modules, queue, location, quiet ) {
-        if ( !quiet ) {
+    LIB.helios.tools.merge.logic.getUninit = function(modules, queue, location, quiet) {
+        if (!quiet) {
             console.log('\nBundling common uninitializer...');
         }
 
         var result = '';
 
         var i, module, path;
-        for ( i = queue.length-1; i >= 0; i-- ) {
+        for (i = queue.length-1; i >= 0; i--) {
             module = modules[queue[i]];
-            if ( module.uninit ) {
-                path = util.relatePath( location, module.path );
+            if (module.uninit) {
+                path = util.relatePath(location, module.path);
 
                 result += '\n// ' + path + '\n\n';
 
@@ -282,8 +282,8 @@ init = function() {
      * 
      * @returns {String} the whole new code
      */
-    LIB.helios.tools.merge.logic.getCode = function( external, init, uninit, plain, quiet ) {
-        if ( !quiet ) {
+    LIB.helios.tools.merge.logic.getCode = function(external, init, uninit, plain, quiet) {
+        if (!quiet) {
             console.log('\nGenerating the code...');
         }
 
@@ -301,16 +301,17 @@ init = function() {
         ''
         ].join('\n');
 
-        if ( plain ) {
+        if (plain) {
             result += [
                 '',
                 'LIB = {};',
                 ''
             ].join('\n');
+
             result += init;
         } else {
-            if ( external.length ) {
-                for ( var i = 0; i < external.length; i++ ) {
+            if (external.length) {
+                for (var i = 0; i < external.length; i++) {
                     result += '\ninclude(\''+external[i]+'\');'
                 }
 
@@ -323,7 +324,7 @@ init = function() {
 
             result += '\n\n\n\n\n';
 
-            if ( uninit ) {
+            if (uninit) {
                 result += 'uninit = function() {\n';
                 result += uninit;
                 result += '\n\n};';
@@ -342,14 +343,14 @@ init = function() {
      * @param {String} code to write
      * @param {Boolean} quiet do not display info messages
      */
-    LIB.helios.tools.merge.logic.write = function( path, code, quiet ) {
-        if ( !quiet ) {
-            console.log( '\nWriting into '+path+'...' );
+    LIB.helios.tools.merge.logic.write = function(path, code, quiet) {
+        if (!quiet) {
+            console.log('\nWriting into '+path+'...');
         }
 
-        util.writeFile( path, code );
+        util.writeFile(path, code);
 
-        if ( !quiet ) {
+        if (!quiet) {
             console.log('Modules are bundled into '+path);
         }
     }

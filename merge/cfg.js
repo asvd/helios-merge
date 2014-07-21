@@ -33,20 +33,20 @@ init = function() {
 
 
     // checks if the given set of arguments is valid
-    var validate = function( args ) {
+    var validate = function(args) {
         var error = false;
 
-        if ( !args.options.input ) {
+        if (!args.options.input) {
             error = '--input should be provided';
         }
 
-        if ( !args.options.output ) {
+        if (!args.options.output) {
             error = '--output should be provided';
         }
         
-        if ( args.options.plain &&
-             args.options.scope &&
-             args.options.scope != 'global' ) {
+        if (args.options.plain &&
+            args.options.scope &&
+            args.options.scope != 'global') {
             error = '--plain option implies --scope=global';
         }
 
@@ -68,21 +68,21 @@ init = function() {
      * 
      * @returns {Object} processed cfg
      */
-    LIB.helios.tools.merge.cfg.processCfg = function( cfg ) {
+    LIB.helios.tools.merge.cfg.processCfg = function(cfg) {
         var def = {
-            input     : './main.js',
+            input  : './main.js',
             quiet  : false,
             plain  : false,
             scope  : 'subdir'
         };
 
-        for ( var key in def ) {
-            if ( def.hasOwnProperty(key) ) {
+        for (var key in def) {
+            if (def.hasOwnProperty(key)) {
                 cfg.options[key] = cfg.options[key]||def[key];
             }
         }
 
-        if ( cfg.options.plain ) {
+        if (cfg.options.plain) {
             cfg.options.scope = 'global';
         }
 
