@@ -39,7 +39,7 @@ $ node ./node_modules/helios-merge/helios-merge.js ...
 ```
 
 - *Download* the distribution using [this
-link](https://github.com/asvd/helios-merge/releases/download/v0.1.1/helios-merge-0.1.1.tar.gz),
+link](https://github.com/asvd/helios-merge/releases/download/v0.1.2/helios-merge-0.1.2.tar.gz),
 unpack it, and launch from that location:
 
 ```sh
